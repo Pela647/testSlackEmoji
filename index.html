@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>Signal Vine Emoji Demo</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&amp;subset=latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="wdt-emoji-bundle.css" />
+    <script type="text/javascript" src="emoji.min.js"></script>
+    <script type="text/javascript" src="wdt-emoji-bundle.js"></script>
+
+    <style type="text/css">
+        body {
+            font-family: 'Open Sans', sans-serif;
+            overflow-y: scroll;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .label-block {
+            display: block;
+            text-align: center;
+        }
+
+        #fullname-output,
+        #comment-output,
+        #contenteditable-output,
+        #contenteditable2-output {
+            min-height: 43px;
+            padding: 10px;
+            background-color: rgba(255, 255, 0, 0.14);
+        }
+
+        #head-title .emoji-outer {
+            width: 64px;
+            height: 64px;
+        }
+
+        .form-control {
+            padding-right: 27px;
+        }
+
+        div.form-control {
+            height: auto;
+        }
+
+        .todo-list li {
+            line-height: 26px;
+        }
+
+        .bottom-text .emoji-sizer {
+            width: 14px;
+            height: 14px;
+        }
+
+        .mobile-notice {
+            background: #ffff00;
+            padding: 10px;
+            border-radius: 20px
+        }
+
+        .set-changers {
+            margin: 20px 0;
+        }
+
+        h4 {
+            line-height: 1.5em;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="container" id="app">
+        <div class="row">
+            <div class="col-md-6 col-md-push-3 col-xs-12" style="padding-top: 10px">
+
+
+
+                <div class="text-center set-changers">
+                    <label>Change emoji set</label>
+                    <div>
+                        <a class="btn btn-default change-emoji-type" data-emoji-type="apple" href="#apple">Apple</a>
+                        <a class="btn btn-default change-emoji-type" data-emoji-type="google" href="#google">Google</a>
+                        <a class="btn btn-default change-emoji-type" data-emoji-type="twitter" href="#twitter">Twitter</a>
+                        <a class="btn btn-default change-emoji-type" data-emoji-type="emojione" href="#emojione">Emojione</a>
+                        <a class="btn btn-default change-emoji-type" data-emoji-type="facebook" href="#facebook">Facebook</a>
+                        <a class="btn btn-default change-emoji-type" data-emoji-type="messenger" href="#messenger">Messenger</a>
+                    </div>
+                </div>
+
+                <form>
+                    <div class="form-group">
+                        <label>input::text</label>
+                        <input id="fullname" type="text" value="" placeholder="emoji demo..." class="form-control wdt-emoji-bundle-enabled wdt-emoji-open-on-colon">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-block">&downarrow;</label>
+                        <div id="fullname-output"></div>
+                    </div>
+                    <hr>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="wdt-emoji-popup">
+        <a href="#" class="wdt-emoji-popup-mobile-closer"> &times; </a>
+        <div class="wdt-emoji-menu-content">
+            <div id="wdt-emoji-menu-header">
+                <a class="wdt-emoji-tab" data-group-name=""><i class="glyphicon glyphicon-asterisk"></i></a>
+                <a class="wdt-emoji-tab" data-group-name="People" data-toggle="tooltip" title="People"></a>
+                <a class="wdt-emoji-tab" data-group-name="Nature" data-toggle="tooltip" title="Nature"></a>
+                <a class="wdt-emoji-tab" data-group-name="Foods" data-toggle="tooltip" title="Foods"></a>
+                <a class="wdt-emoji-tab" data-group-name="Activity" data-toggle="tooltip" title="Activity"></a>
+                <a class="wdt-emoji-tab" data-group-name="Places" data-toggle="tooltip" title="Places"></a>
+                <a class="wdt-emoji-tab" data-group-name="Objects" data-toggle="tooltip" title="Objects"></a>
+                <a class="wdt-emoji-tab" data-group-name="Symbols" data-toggle="tooltip" title="Symbols"></a>
+                <a class="wdt-emoji-tab" data-group-name="Flags" data-toggle="tooltip" title="Flags"></a>
+                <a class="wdt-emoji-tab" data-group-name=""><i class="glyphicon glyphicon-asterisk"></i></a>
+            </div>
+            <div class="wdt-emoji-scroll-wrapper">
+                <div id="wdt-emoji-menu-items">
+                    <input id="wdt-emoji-search" type="text" placeholder="Search">
+                    <h3 id="wdt-emoji-search-result-title">Search Results</h3>
+                    <div class="wdt-emoji-sections"></div>
+                    <div id="wdt-emoji-no-result">No emoji found</div>
+                </div>
+            </div>
+            <div id="wdt-emoji-footer">
+                <div id="wdt-emoji-preview">
+                    <span id="wdt-emoji-preview-img"></span>
+                    <div id="wdt-emoji-preview-text">
+                        <span id="wdt-emoji-preview-name"></span><br>
+                        <span id="wdt-emoji-preview-aliases"></span>
+                    </div>
+                </div>
+
+                <div id="wdt-emoji-preview-bundle">
+                    <img src="logo.png">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        (function () {
+
+            wdtEmojiBundle.defaults.emojiSheets = {
+                'apple': 'sheets/sheet_apple_64_indexed_128.png',
+                'google': 'sheets/sheet_google_64_indexed_128.png',
+                'twitter': 'sheets/sheet_twitter_64_indexed_128.png',
+                'emojione': 'sheets/sheet_emojione_64_indexed_128.png',
+                'facebook': 'sheets/sheet_facebook_64_indexed_128.png',
+                'messenger': 'sheets/sheet_messenger_64_indexed_128.png'
+            };
+
+            wdtEmojiBundle.init('.wdt-emoji-bundle-enabled');
+
+            wdtEmojiBundle.on('afterSelect', function (a, b) {
+                console.log('afterSelect', a, b);
+            });
+
+            var typeChangers = document.querySelectorAll('.change-emoji-type');
+            for (var i = 0; i < typeChangers.length; i++) {
+                typeChangers[i].addEventListener('click', function () {
+                    wdtEmojiBundle.changeType(this.dataset.emojiType);
+                    return false;
+                });
+            }
+            var ev = document.createEvent('Event');
+            ev.initEvent('input', true, true);
+
+            // ------------------------------------------------------
+            document.getElementById('fullname').addEventListener('input', function () {
+                document.getElementById('fullname-output').innerHTML = wdtEmojiBundle.render(this.value);
+
+            });
+            document.getElementById('fullname').dispatchEvent(ev);
+
+            // ------------------------------------------------------
+
+        })();
+    </script>
+</body>
+
+</html>
