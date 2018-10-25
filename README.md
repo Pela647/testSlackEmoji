@@ -1,4 +1,4 @@
-# wdt-emoji-bundle
+# sv-emoji-bundle
 
 Slack like emoji selector with apple/ios, twitter/twemoji, google, emojione, facebook, messenger and custom emoji support. I :heart: opensource.
 
